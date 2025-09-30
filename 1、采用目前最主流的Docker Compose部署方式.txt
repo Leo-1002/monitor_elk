@@ -1,0 +1,24 @@
+环境规划与准备工作
+
+在开始之前，我们先明确目标：在一台服务器（例如IP为192.168.0.224的监控主机）上，使用Docker Compose快速部署ELK的核心服务（Elasticsearch, Logstash, Kibana），并配置Filebeat来采集日志
+。
+
+​核心组件作用​：
+
+​Elasticsearch​：负责存储和检索日志数据。
+
+​Logstash​：负责处理（过滤、解析、转换）日志数据。
+
+​Kibana​：提供可视化Web界面，用于查询和展示日志。
+
+​Filebeat​：轻量级的日志采集器，部署在应用服务器上，将日志发送给Logstash
+。
+
+​技术要求​：确保你的服务器已安装Docker和Docker Compose。同时，建议调整系统内核参数，以确保Elasticsearch能够稳定运行。
+
+
+注意！！！！！！！！服务器的内存一定要足够，elk对内存是占用比较高的，建议2核4G或者4核8G以上的内存
+
+# 应用内核参数，确保Elasticsearch有足够的内存映射空间
+sudo sysctl -w vm.max_map_count=262144
+echo "vm.max_map_count=262144" | sudo tee -a /etc/sysctl.conf

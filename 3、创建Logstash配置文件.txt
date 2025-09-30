@@ -1,0 +1,27 @@
+Logstash需要定义一个管道（pipeline）来处理数据。在之前创建的/opt/monitor/elk/logstash/pipeline目录下，新建logstash.conf文件。
+
+# 创建并编辑Logstash配置文件
+nano /opt/monitor/elk/logstash/pipeline/logstash.conf
+
+文件内容如下，这是一个基础配置，接收Filebeat的日志，并输出到Elasticsearch
+
+# logstash.conf
+input {
+  beats {
+    port => 5044
+  }
+}
+
+# 过滤部分暂时为空，后续可根据日志格式在此添加grok等过滤器进行解析
+filter {
+  # 例如，如需解析Nginx日志，可在此处添加grok规则
+}
+
+output {
+  elasticsearch {
+    hosts => ["http://elasticsearch:9200"]
+    index => "logs-%{+YYYY.MM.dd}"
+  }
+  # 同时输出到控制台，便于调试初期观察
+  stdout { codec => rubydebug }
+}

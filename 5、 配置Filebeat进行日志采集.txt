@@ -1,0 +1,36 @@
+安装Filebeat
+
+# 下载并安装Elastic GPG key
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+
+# 添加Elastic源
+sudo sh -c 'echo "deb https://artifacts.elastic.co/packages/8.x/apt stable main" > /etc/apt/sources.list.d/elastic-8.x.list'
+
+# 更新并安装Filebeat
+sudo apt update
+sudo apt install filebeat=8.17.2
+
+ 配置Filebeat
+编辑Filebeat的主配置文件/etc/filebeat/filebeat.yml
+
+
+sudo nano /etc/filebeat/filebeat.yml
+
+将其配置为将系统日志发送到我们刚搭建的Logstash
+
+# filebeat.yml
+filebeat.inputs:
+- type: log
+  enabled: true
+  paths:
+    - /var/log/*.log
+
+output.logstash:
+  hosts: ["192.168.0.224:5044"]  # 请替换为你的Logstash服务器IP
+
+# 为了便于识别，可以设置一个字段来标记日志来源
+fields:
+  log_source: host4-system-logs
+
+sudo systemctl enable filebeat
+sudo systemctl start filebeat

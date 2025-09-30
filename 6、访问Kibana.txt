@@ -1,0 +1,14 @@
+创建索引模式（Index Pattern）​​：
+
+进入Kibana后，点击左侧导航栏的 Management> Stack Management。
+
+在 Kibana部分，点击 Index Patterns。
+
+点击 Create index pattern，在步骤1中输入 logs-*作为模式名称。
+
+在步骤2中选择 @timestamp作为时间过滤字段。
+
+点击 Create index pattern完成创建
+。
+
+​查看日志​：点击左侧导航栏的 Analytics> Discover。在上方选择你刚创建的 logs-*索引模式，就可以看到实时流入的日志数据了
